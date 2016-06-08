@@ -1,11 +1,11 @@
 {
   "author": "Mark Engel <mark@engel.io> (http://www.engel.io)",
-  "dependencies": {
-    "bluebird": "2.9.24",
-    "underscore": "1.8.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "mocha": "2.2.4"
+  },
+  "engines": {
+    "node": ">=4.0.0"
   },
   "license": "MIT",
   "main": "index.js",

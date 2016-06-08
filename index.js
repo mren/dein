@@ -1,6 +1,3 @@
-var Promise = require('bluebird');
-var _ = require('underscore');
-
 function Dein(modules) {
   this.modules = modules || {};
 }
@@ -11,11 +8,11 @@ Dein.prototype.register = function(name, func) {
 };
 
 Dein.prototype.registerLiteral = function(name, literal) {
-  return this.registerModule(name, {func: _.constant(literal), required: []});
+  return this.registerModule(name, {func: constant(literal), required: []});
 };
 
 Dein.prototype.registerModule = function(name, module) {
-  return new Dein(_.extend({}, this.modules, _.object([[name, module]])));
+  return new Dein(Object.assign({}, this.modules, object([[name, module]])));
 };
 
 Dein.prototype.resolve = function(name) {
@@ -47,9 +44,27 @@ function parseArguments(func) {
   if (!extractedArguments) {
     throw new Error('Could not parse function ' + func + '.');
   }
-  return extractedArguments[1].split(',').filter(_.identity).map(trim);
+  return extractedArguments[1].split(',').filter(identity).map(trim);
 
   function trim(str) {
     return str.trim();
   }
 }
+
+function constant(value) {
+    return function() {
+        return value;
+    }
+}
+
+function identity(value) {
+    return value
+}
+
+function object(list) {
+    var result = {};
+    for (var i = 0; i < list.length; i++) {
+        result[list[i][0]] = list[i][1];
+    }
+    return result;
+};
