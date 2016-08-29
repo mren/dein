@@ -107,4 +107,24 @@ describe('dein', () => {
       .resolve('hello')
       .then(result => assert.strictEqual(result, 'Hello Alice.'));
   });
+
+  it('should parse simple function', () => {
+    function fun(a, b, c) {
+      return a + b + c;
+    }
+    assert.deepStrictEqual(dein.parseArguments(fun), ['a', 'b', 'c']);
+  });
+
+  it('should parse arrow function', () => {
+    const fun = (a, b, c) => a + b + c;
+    assert.deepStrictEqual(dein.parseArguments(fun), ['a', 'b', 'c']);
+  });
+
+  it('should parse simple function with inside arrow function', () => {
+    function fun(a, b, c) {
+      const arrow = (x, y) => x + y;
+      return arrow(arrow(a, b), c);
+    }
+    assert.deepStrictEqual(dein.parseArguments(fun), ['a', 'b', 'c']);
+  });
 });

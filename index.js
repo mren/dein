@@ -4,20 +4,24 @@ function Dein(modules) {
 
 function parseArguments(func) {
   const funcString = func.toString();
+  if (funcString.startsWith('function ')) {
+    const extractedArguments = func.toString().match(/function.*\(([\s\S]*?)\)/);
+    if (!extractedArguments) {
+      throw new Error(`Could not parse function ${func}.`);
+    }
+    const identity = value => value;
+    const trim = str => str.trim();
+    return extractedArguments[1].split(',').filter(identity).map(trim);
+  }
   if (funcString.includes('=>')) {
     if (funcString[0] === '(') {
-      return funcString.substr(1, funcString.indexOf(')') - 1).replace(' ', '').split(',');
+      return funcString.substr(1, funcString.indexOf(')') - 1).replace(/ /g, '').split(',');
     }
     return [funcString.replace(' ', '').split('=')[0]];
   }
-  const extractedArguments = func.toString().match(/function.*\(([\s\S]*?)\)/);
-  if (!extractedArguments) {
-    throw new Error(`Could not parse function ${func}.`);
-  }
-  const identity = value => value;
-  const trim = str => str.trim();
-  return extractedArguments[1].split(',').filter(identity).map(trim);
+  throw new Error('Unexpected Function.');
 }
+Dein.prototype.parseArguments = parseArguments;
 
 
 function object(list) {
