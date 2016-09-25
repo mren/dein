@@ -127,4 +127,9 @@ describe('dein', () => {
     }
     assert.deepStrictEqual(dein.parseArguments(fun), ['a', 'b', 'c']);
   });
+
+  it('should parse one line function with inline function call', () => {
+    function fun(a) { return a(true); }
+    assert.deepStrictEqual(dein.parseArguments(fun), ['a']);
+  });
 });

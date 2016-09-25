@@ -5,7 +5,7 @@ function Dein(modules) {
 function parseArguments(func) {
   const funcString = func.toString();
   if (funcString.startsWith('function ')) {
-    const extractedArguments = func.toString().match(/function.*\(([\s\S]*?)\)/);
+    const extractedArguments = func.toString().match(/function.*?\(([\s\S]*?)\)/);
     if (!extractedArguments) {
       throw new Error(`Could not parse function ${func}.`);
     }
