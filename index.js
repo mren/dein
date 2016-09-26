@@ -26,11 +26,12 @@ Dein.prototype.parseArguments = parseArguments;
 
 function object(list) {
   const result = {};
-  for (let i = 0; i < list.length; i++) {
-    result[list[i][0]] = list[i][1];
-  }
+  list.forEach(elem => {
+    result[elem[0]] = elem[1];
+  });
   return result;
 }
+Dein.prototype.object = object;
 
 function register(name, func) {
   const module = { func, required: parseArguments(func) };
@@ -52,12 +53,12 @@ Dein.prototype.registerModule = registerModule;
 function resolveModule(modules, name, visited) {
   const module = modules[name];
   if (!module) {
-    const error = new Error(`Dependency ${name} is not registered.`);
-    return Promise.reject(error);
+    const notRegisteredError = new Error(`Dependency ${name} is not registered.`);
+    return Promise.reject(notRegisteredError);
   }
   if (visited.indexOf(name) >= 0) {
-    const error = new Error(`Circular dependency detected with ${name}.`);
-    return Promise.reject(error);
+    const circularError = new Error(`Circular dependency detected with ${name}.`);
+    return Promise.reject(circularError);
   }
   const dependencies = module.required
     .map(requirement => resolveModule(modules, requirement, visited.concat(name)));

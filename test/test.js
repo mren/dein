@@ -132,4 +132,8 @@ describe('dein', () => {
     function fun(a) { return a(true); }
     assert.deepStrictEqual(dein.parseArguments(fun), ['a']);
   });
+
+  it('should have object helper function', () => {
+    assert.deepStrictEqual(dein.object([['a', 1], ['b', 2]]), { a: 1, b: 2 });
+  });
 });
