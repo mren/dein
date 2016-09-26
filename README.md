@@ -13,7 +13,7 @@ npm install dein
 ```
 
 ```javascript
-var dein = require('dein');
+const dein = require('dein');
 ```
 
 # Examples
@@ -21,11 +21,9 @@ var dein = require('dein');
 ```javascript
 dein
   .registerLiteral('someString', 'Hello World')
-  .register('someModule', function(someString) {
-    return someString + '!!!';
-  })
+  .register('someModule', someString => `${someString}!!!`)
   .resolve('someModule')
-  .then(function(result) {
+  .then((result) => {
     console.log('Result: ' + result);
     // Expected: `Result: Hello World!!!
   });
