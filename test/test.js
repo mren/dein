@@ -120,6 +120,11 @@ describe('dein', () => {
     assert.deepStrictEqual(dein.parseArguments(fun), ['a', 'b', 'c']);
   });
 
+  it('should parse empty arrow function', () => {
+    const fun = () => true;
+    assert.deepStrictEqual(dein.parseArguments(fun), []);
+  });
+
   it('should parse simple function with inside arrow function', () => {
     function fun(a, b, c) {
       const arrow = (x, y) => x + y;

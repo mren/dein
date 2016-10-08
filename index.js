@@ -15,7 +15,8 @@ function parseArguments(func) {
   }
   if (funcString.includes('=>')) {
     if (funcString[0] === '(') {
-      return funcString.substr(1, funcString.indexOf(')') - 1).replace(/ /g, '').split(',');
+      const argumentString = funcString.substr(1, funcString.indexOf(')') - 1).replace(/ /g, '');
+      return argumentString === '' ? [] : argumentString.split(',');
     }
     return [funcString.replace(' ', '').split('=')[0]];
   }
