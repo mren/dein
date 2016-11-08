@@ -4,14 +4,22 @@ function Dein(modules) {
 
 function parseArguments(func) {
   const funcString = func.toString();
+  const identity = value => value;
+  const trim = str => str.trim();
+
   if (funcString.startsWith('function ')) {
     const extractedArguments = func.toString().match(/function.*?\(([\s\S]*?)\)/);
     if (!extractedArguments) {
       throw new Error(`Could not parse function ${func}.`);
     }
-    const identity = value => value;
-    const trim = str => str.trim();
     return extractedArguments[1].split(',').filter(identity).map(trim);
+  }
+  if (funcString.startsWith('class ')) {
+    const extractedClassArguments = func.toString().match(/constructor.*?\(([\s\S]*?)\)/);
+    if (!extractedClassArguments) {
+      throw new Error(`Could not parse class ${func}.`);
+    }
+    return extractedClassArguments[1].split(',').filter(identity).map(trim);
   }
   if (funcString.includes('=>')) {
     if (funcString[0] === '(') {
@@ -64,7 +72,13 @@ function resolveModule(modules, name, visited) {
   const dependencies = module.required
     .map(requirement => resolveModule(modules, requirement, visited.concat(name)));
   return Promise.all(dependencies)
-    .then(args => module.func.apply(null, args));
+    .then((args) => {
+      const isClass = /^class\s/.test(module.func.toString());
+      if (isClass) {
+        return new (module.func.bind.apply(module.func, [module.func].concat(args)))();
+      }
+      return module.func.apply(null, args);
+    });
 }
 
 function resolve(name) {

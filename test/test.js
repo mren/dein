@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('assert');
 
 const dein = require('../');
@@ -140,5 +142,15 @@ describe('dein', () => {
 
   it('should have object helper function', () => {
     assert.deepStrictEqual(dein.object([['a', 1], ['b', 2]]), { a: 1, b: 2 });
+  });
+
+  it('should resolve javascript classes', () => {
+    class Class { constructor(a, b) { this.dependencies = { a, b }; } }
+    return dein
+      .registerLiteral('a', true)
+      .registerLiteral('b', false)
+      .register('class', Class)
+      .resolve('class')
+      .then(result => assert.deepEqual(result.dependencies, { a: true, b: false }));
   });
 });
