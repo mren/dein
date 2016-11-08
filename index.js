@@ -20,7 +20,7 @@ function parseArguments(func) {
     }
     return [funcString.replace(' ', '').split('=')[0]];
   }
-  throw new Error('Unexpected Function.');
+  throw new Error(`Unexpected Function (${funcString}).`);
 }
 Dein.prototype.parseArguments = parseArguments;
 
