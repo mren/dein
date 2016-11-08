@@ -18,7 +18,8 @@
   },
   "scripts": {
     "lint": "eslint *.js test",
-    "test": "npm run lint && mocha --recursive"
+    "mocha": "mocha --recursive",
+    "test": "npm run lint && npm run mocha"
   },
   "version": "2.5.0"
 }
