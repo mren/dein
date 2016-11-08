@@ -27,7 +27,7 @@ Dein.prototype.parseArguments = parseArguments;
 
 function object(list) {
   const result = {};
-  list.forEach(elem => {
+  list.forEach((elem) => {
     result[elem[0]] = elem[1];
   });
   return result;
