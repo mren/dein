@@ -22,5 +22,5 @@
     "mocha": "mocha --recursive",
     "test": "npm run lint && npm run mocha"
   },
-  "version": "2.6.0"
+  "version": "3.0.0"
 }
