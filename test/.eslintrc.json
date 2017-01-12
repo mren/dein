@@ -1,8 +1,8 @@
 {
-    "env": {
-        "mocha": true
-    },
-    "rules": {
-        "strict": "warn"
-    }
+  "env": {
+    "mocha": true
+  },
+  "rules": {
+    "strict": "warn"
+  }
 }

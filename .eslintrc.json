@@ -1,6 +1,6 @@
 {
-    "extends": "airbnb-base",
-    "rules": {
-        "prefer-spread": "warn"
-    }
+  "extends": "airbnb-base",
+  "rules": {
+    "prefer-spread": "warn"
+  }
 }
