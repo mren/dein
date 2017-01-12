@@ -1,5 +1,6 @@
 function Dein(modules) {
   this.modules = modules || {};
+  this.cache = {};
 }
 
 function parseArguments(func) {
@@ -69,20 +70,28 @@ function resolveModule(modules, name, visited) {
     const circularError = new Error(`Circular dependency detected with ${name}.`);
     return Promise.reject(circularError);
   }
+  if (this.cache[name]) {
+    return this.cache[name];
+  }
   const dependencies = module.required
-    .map(requirement => resolveModule(modules, requirement, visited.concat(name)));
-  return Promise.all(dependencies)
-    .then((args) => {
-      const isClass = /^class\s/.test(module.func.toString());
-      if (isClass) {
-        return new (module.func.bind.apply(module.func, [module.func].concat(args)))();
-      }
-      return module.func.apply(null, args);
-    });
+    .map(requirement => this.resolveModule(modules, requirement, visited.concat(name)));
+
+  const initializeModule = (args) => {
+    const isClass = /^class\s/.test(module.func.toString());
+    if (isClass) {
+      return new (module.func.bind.apply(module.func, [module.func].concat(args)))();
+    }
+    return module.func.apply(null, args);
+  };
+  const result = Promise.all(dependencies)
+    .then(initializeModule);
+  this.cache[name] = result;
+  return result;
 }
+Dein.prototype.resolveModule = resolveModule;
 
 function resolve(name) {
-  return resolveModule(this.modules, name, []);
+  return this.resolveModule(this.modules, name, []);
 }
 Dein.prototype.resolve = resolve;
 

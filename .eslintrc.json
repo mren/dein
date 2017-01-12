@@ -1,6 +1,7 @@
 {
-    "extends": "airbnb-base",
-    "rules": {
-        "prefer-spread": "warn"
-    }
+  "extends": "airbnb-base",
+  "rules": {
+    "comma-dangle": ["error", "always-multiline"],
+    "prefer-spread": "warn"
+  }
 }
