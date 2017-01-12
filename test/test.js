@@ -2,6 +2,8 @@
 
 const assert = require('assert');
 
+const sinon = require('sinon');
+
 const dein = require('../');
 
 describe('dein', () => {
@@ -152,5 +154,15 @@ describe('dein', () => {
       .register('class', Class)
       .resolve('class')
       .then(result => assert.deepEqual(result.dependencies, { a: true, b: false }));
+  });
+
+  it('should resolve every element only once', () => {
+    const stub = sinon.stub().returns(true);
+    const dependencyInjection = dein
+      .register('singleton', () => stub());
+    return Promise.all([
+      dependencyInjection.resolve('singleton'),
+      dependencyInjection.resolve('singleton'),
+    ]).then(() => sinon.assert.calledOnce(stub));
   });
 });

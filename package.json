@@ -5,7 +5,8 @@
     "eslint": "3.9.1",
     "eslint-config-airbnb-base": "9.0.0",
     "eslint-plugin-import": "2.2.0",
-    "mocha": "3.1.2"
+    "mocha": "3.1.2",
+    "sinon": "1.17.7"
   },
   "engines": {
     "node": ">=4.0.0"
