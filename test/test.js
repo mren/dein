@@ -165,4 +165,13 @@ describe('dein', () => {
       dependencyInjection.resolve('singleton'),
     ]).then(() => sinon.assert.calledOnce(stub));
   });
+
+  it('should register a dictionary', () => dein
+    .registerModules({
+      a: b => b,
+      b: () => true,
+    })
+    .resolve('a')
+    .then(result => assert(result))
+  );
 });
