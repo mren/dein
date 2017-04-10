@@ -43,11 +43,19 @@ function object(list) {
 }
 Dein.prototype.object = object;
 
+const functionToModule = func => ({ func, required: parseArguments(func) });
+
 function register(name, func) {
-  const module = { func, required: parseArguments(func) };
-  return this.registerModule(name, module);
+  return this.registerModule(name, functionToModule(func));
 }
 Dein.prototype.register = register;
+
+function registerModules(modules) {
+  return Object.keys(modules)
+    .map(name => ({ name, module: functionToModule(modules[name]) }))
+    .reduce((that, result) => that.registerModule(result.name, result.module), this);
+}
+Dein.prototype.registerModules = registerModules;
 
 function registerLiteral(name, literal) {
   const constant = value => () => value;
