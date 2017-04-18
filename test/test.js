@@ -56,7 +56,7 @@ describe('dein', () => {
       .register('circular2', circular2Fun)
       .resolve('circular1')
       .catch((err) => {
-        const expected = 'Circular dependency detected with circular1.';
+        const expected = 'Circular dependency with `circular1 -> circular2 -> circular1` detected.';
         assert.strictEqual(err.message, expected);
       });
   });

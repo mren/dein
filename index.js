@@ -75,7 +75,8 @@ function resolveModule(modules, name, visited) {
     return Promise.reject(notRegisteredError);
   }
   if (visited.indexOf(name) >= 0) {
-    const circularError = new Error(`Circular dependency detected with ${name}.`);
+    const circle = visited.concat(name).join(' -> ');
+    const circularError = new Error(`Circular dependency with \`${circle}\` detected.`);
     return Promise.reject(circularError);
   }
   if (this.cache[name]) {
