@@ -174,4 +174,15 @@ describe('dein', () => {
     .resolve('a')
     .then(result => assert(result))
   );
+
+  it('should keep cache to each instance', () => {
+    const parent = dein.register('a', () => 'a');
+    const child = parent.register('b', () => 'b');
+    return child.resolve('b')
+      .then(() => {
+        assert.deepStrictEqual(parent.cache, {});
+        assert(child.cache.b);
+        assert.notDeepStrictEqual(child.cache, parent.cache);
+      });
+  });
 });
