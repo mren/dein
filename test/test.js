@@ -185,4 +185,13 @@ describe('dein', () => {
         assert.notDeepStrictEqual(child.cache, parent.cache);
       });
   });
+
+  it('should use annotations by', () => dein.registerModules({
+    dependencyA: () => 1,
+    dependencyB: () => 2,
+    minified: Object.assign(((a, b) => a + b), { $inject: ['dependencyA', 'dependencyB'] }),
+  })
+    .resolve('minified')
+    .then(result => assert.strictEqual(result, 3))
+  );
 });

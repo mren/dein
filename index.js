@@ -8,6 +8,10 @@ function parseArguments(func) {
   const identity = value => value;
   const trim = str => str.trim();
 
+  if (func.$inject) {
+    return func.$inject;
+  }
+
   if (funcString.startsWith('function ')) {
     const extractedArguments = func.toString().match(/function.*?\(([\s\S]*?)\)/);
     if (!extractedArguments) {
