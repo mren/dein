@@ -18,9 +18,9 @@ describe('dein', () => {
   });
 
   it('should resolve literals.', () => dein
-      .registerLiteral('dependency', 'a')
-      .resolve('dependency')
-      .then(result => assert.strictEqual(result, 'a'))
+    .registerLiteral('dependency', 'a')
+    .resolve('dependency')
+    .then(result => assert.strictEqual(result, 'a'))
   );
 
   it('should resolve modules with dependencies.', () => {
