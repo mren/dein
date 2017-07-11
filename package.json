@@ -2,11 +2,11 @@
   "author": "mren",
   "dependencies": {},
   "devDependencies": {
-    "eslint": "4.1.1",
+    "eslint": "4.2.0",
     "eslint-config-airbnb-base": "11.2.0",
-    "eslint-plugin-import": "2.6.1",
+    "eslint-plugin-import": "2.7.0",
     "mocha": "3.4.2",
-    "sinon": "2.3.6"
+    "sinon": "2.3.7"
   },
   "engines": {
     "node": ">=4.0.0"
