@@ -194,4 +194,18 @@ describe('dein', () => {
     .resolve('minified')
     .then(result => assert.strictEqual(result, 3))
   );
+
+  it('should work with dependencies defined after object', () => dein
+    .register('a', b => b)
+    .register('b', () => 'hello')
+    .resolve('a')
+    .then(result => assert.deepStrictEqual(result, 'hello'))
+  );
+
+  it('should work with dependencies defined before object', () => dein
+    .register('b', () => 'hello')
+    .register('a', b => b)
+    .resolve('a')
+    .then(result => assert.deepStrictEqual(result, 'hello'))
+  );
 });
