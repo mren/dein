@@ -208,4 +208,11 @@ describe('dein', () => {
     .resolve('a')
     .then(result => assert.deepStrictEqual(result, 'hello'))
   );
+
+  it('should resolve multiple targets', () => dein
+    .register('a', () => 'a')
+    .register('b', () => 'b')
+    .resolve(['a', 'b'])
+    .then(result => assert.deepStrictEqual(result, { a: 'a', b: 'b' }))
+  );
 });

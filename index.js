@@ -73,6 +73,13 @@ function registerModule(name, module) {
 Dein.prototype.registerModule = registerModule;
 
 function resolveModule(modules, name, visited) {
+  if (Array.isArray(name)) {
+    return Promise.all(
+      name.map(elem => this.resolveModule(modules, elem, visited)
+        .then(result => ({ [elem]: result }))
+      )
+    ).then(results => Object.assign({}, ...results));
+  }
   const module = modules[name];
   if (!module) {
     const notRegisteredError = new Error(`Dependency ${name} is not registered.`);
