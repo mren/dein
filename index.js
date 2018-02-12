@@ -37,11 +37,10 @@ function parseArguments(func) {
 }
 Dein.prototype.parseArguments = parseArguments;
 
-
 function object(list) {
   const result = {};
-  list.forEach((elem) => {
-    result[elem[0]] = elem[1];
+  list.forEach(([name, module]) => {
+    result[name] = module;
   });
   return result;
 }
@@ -68,17 +67,14 @@ function registerLiteral(name, literal) {
 Dein.prototype.registerLiteral = registerLiteral;
 
 function registerModule(name, module) {
-  return new Dein(Object.assign({}, this.modules, object([[name, module]])));
+  return new Dein({ ...this.modules, ...object([[name, module]]) });
 }
 Dein.prototype.registerModule = registerModule;
 
 function resolveModule(modules, name, visited) {
   if (Array.isArray(name)) {
-    return Promise.all(
-      name.map(elem => this.resolveModule(modules, elem, visited)
-        .then(result => ({ [elem]: result }))
-      )
-    ).then(results => Object.assign({}, ...results));
+    return Promise.all(name.map(elem => this.resolveModule(modules, elem, visited)
+      .then(result => ({ [elem]: result })))).then(results => Object.assign({}, ...results));
   }
   const module = modules[name];
   if (!module) {
@@ -99,7 +95,8 @@ function resolveModule(modules, name, visited) {
   const initializeModule = (args) => {
     const isClass = /^class\s/.test(module.func.toString());
     if (isClass) {
-      return new (module.func.bind.apply(module.func, [module.func].concat(args)))();
+      // eslint-disable-next-line new-cap
+      return new module.func(...args);
     }
     return module.func.apply(null, args);
   };

@@ -1,4 +1,4 @@
-'use strict';
+
 
 const assert = require('assert');
 
@@ -20,8 +20,7 @@ describe('dein', () => {
   it('should resolve literals.', () => dein
     .registerLiteral('dependency', 'a')
     .resolve('dependency')
-    .then(result => assert.strictEqual(result, 'a'))
-  );
+    .then(result => assert.strictEqual(result, 'a')));
 
   it('should resolve modules with dependencies.', () => {
     function suffixFun() {
@@ -40,8 +39,7 @@ describe('dein', () => {
 
   it('should throw an error on unregistered dependencies.', () => dein
     .resolve('hello')
-    .catch(err => assert.strictEqual(err.message, 'Dependency hello is not registered.'))
-  );
+    .catch(err => assert.strictEqual(err.message, 'Dependency hello is not registered.')));
 
   it('should catch circular dependencies.', () => {
     function circular1Fun(circular2) {
@@ -64,8 +62,7 @@ describe('dein', () => {
   it('should work with literal promises.', () => dein
     .registerLiteral('promise', Promise.resolve('hello'))
     .resolve('promise')
-    .then(result => assert.strictEqual(result, 'hello'))
-  );
+    .then(result => assert.strictEqual(result, 'hello')));
 
   it('should work with promises.', () => {
     function getPromise() {
@@ -81,7 +78,8 @@ describe('dein', () => {
     function functionWithArgumentsSpanningMultipleLines(
       first,
       second,
-      third) {
+      third
+    ) {
       return first + second + third;
     }
     return dein
@@ -172,8 +170,7 @@ describe('dein', () => {
       b: () => true,
     })
     .resolve('a')
-    .then(result => assert(result))
-  );
+    .then(result => assert(result)));
 
   it('should keep cache to each instance', () => {
     const parent = dein.register('a', () => 'a');
@@ -192,27 +189,23 @@ describe('dein', () => {
     minified: Object.assign(((a, b) => a + b), { $inject: ['dependencyA', 'dependencyB'] }),
   })
     .resolve('minified')
-    .then(result => assert.strictEqual(result, 3))
-  );
+    .then(result => assert.strictEqual(result, 3)));
 
   it('should work with dependencies defined after object', () => dein
     .register('a', b => b)
     .register('b', () => 'hello')
     .resolve('a')
-    .then(result => assert.deepStrictEqual(result, 'hello'))
-  );
+    .then(result => assert.deepStrictEqual(result, 'hello')));
 
   it('should work with dependencies defined before object', () => dein
     .register('b', () => 'hello')
     .register('a', b => b)
     .resolve('a')
-    .then(result => assert.deepStrictEqual(result, 'hello'))
-  );
+    .then(result => assert.deepStrictEqual(result, 'hello')));
 
   it('should resolve multiple targets', () => dein
     .register('a', () => 'a')
     .register('b', () => 'b')
     .resolve(['a', 'b'])
-    .then(result => assert.deepStrictEqual(result, { a: 'a', b: 'b' }))
-  );
+    .then(result => assert.deepStrictEqual(result, { a: 'a', b: 'b' })));
 });
