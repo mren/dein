@@ -28,8 +28,8 @@ function parseArguments(func) {
   }
   if (funcString.includes('=>')) {
     if (funcString[0] === '(') {
-      const argumentString = funcString.substr(1, funcString.indexOf(')') - 1).replace(/ /g, '');
-      return argumentString === '' ? [] : argumentString.split(',');
+      const argumentString = funcString.substr(1, funcString.indexOf(')') - 1).replace(/\s/g, '');
+      return argumentString.split(',').filter(Boolean);
     }
     return [funcString.replace(' ', '').split('=')[0]];
   }

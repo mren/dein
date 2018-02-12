@@ -122,6 +122,15 @@ describe('dein', () => {
     assert.deepStrictEqual(dein.parseArguments(fun), ['a', 'b', 'c']);
   });
 
+  it('should parse multiline array function', () => {
+    const fun = (
+      a,
+      b,
+      c,
+    ) => a + b + c;
+    assert.deepStrictEqual(dein.parseArguments(fun), ['a', 'b', 'c']);
+  });
+
   it('should parse empty arrow function', () => {
     const fun = () => true;
     assert.deepStrictEqual(dein.parseArguments(fun), []);
@@ -208,4 +217,18 @@ describe('dein', () => {
     .register('b', () => 'b')
     .resolve(['a', 'b'])
     .then(result => assert.deepStrictEqual(result, { a: 'a', b: 'b' })));
+
+  it('should solve multiline array functions', () => {
+    const foo = (
+      a,
+      b,
+    ) => a + b;
+
+    return dein
+      .registerLiteral('a', 1)
+      .registerLiteral('b', 2)
+      .register('foo', foo)
+      .resolve('foo')
+      .then(result => assert.strictEqual(result, 3));
+  });
 });
